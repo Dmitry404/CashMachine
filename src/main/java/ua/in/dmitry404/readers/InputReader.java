@@ -3,11 +3,11 @@ package ua.in.dmitry404.readers;
 /**
  * @author Dmitriy Butakov
  */
-public interface Reader {
+public interface InputReader {
     /**
-     * Read command from current stream
-     * 
+     * Read command from source
+     *
      * @return current command
      */
-    public String readCommand();
+    String readCommand();
 }

@@ -1,6 +1,6 @@
 package ua.in.dmitry404.entities;
 
-import ua.in.dmitry404.readers.Reader;
+import ua.in.dmitry404.readers.InputReader;
 
 /**
  * This class contains implementation of ATM
@@ -8,9 +8,9 @@ import ua.in.dmitry404.readers.Reader;
  * @author Dmitriy Butakov
  */
 public class CashMachine {
-    private Reader reader;
+    private InputReader inputReader;
 
-    public CashMachine(Reader reader) {
-        this.reader = reader;
+    public CashMachine(InputReader inputReader) {
+        this.inputReader = inputReader;
     }
 }

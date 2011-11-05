@@ -8,13 +8,13 @@ import java.util.Scanner;
  * 
  * @author Dmitriy Butakov
  */
-public class InputStreamReader implements Reader {
+public class InputStreamReader implements InputReader {
     private InputStream currentStream;
 
     /**
-     * Construct object with custom stream (for better testability)
+     * Construct object with specified InputStream implementation
      *
-     * @param stream current currentStream
+     * @param stream specified InputStream implementation
      */
     public InputStreamReader(InputStream stream) {
         this.currentStream = stream;
