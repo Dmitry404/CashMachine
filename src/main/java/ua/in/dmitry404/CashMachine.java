@@ -1,7 +1,15 @@
 package ua.in.dmitry404;
 
+import ua.in.dmitry404.command.Command;
+import ua.in.dmitry404.command.CommandParser;
+import ua.in.dmitry404.command.InvalidCommandException;
+import ua.in.dmitry404.command.implementation.QuitCommand;
 import ua.in.dmitry404.readers.InputReader;
 import ua.in.dmitry404.writers.OutputWriter;
+import ua.in.dmitry404.writers.WriterException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains implementation of ATM
@@ -12,6 +20,8 @@ public class CashMachine {
     private InputReader inputReader;
     private OutputWriter outputWriter;
 
+    Map<String, Command> commandHolder = new HashMap<String, Command>();
+
     /**
      * Construct ATM
      *
@@ -21,5 +31,39 @@ public class CashMachine {
     public CashMachine(InputReader inputReader, OutputWriter outputWriter) {
         this.inputReader = inputReader;
         this.outputWriter = outputWriter;
+
+        commandHolder.put("Q", new QuitCommand());
+    }
+
+    public void run() throws WriterException {
+        do {
+            try {
+                CommandParser commandParser = new CommandParser(inputReader.readCommand());
+                if (commandHolder.containsKey(commandParser.getName())) {
+                    Command command = commandHolder.get(commandParser.getName());
+                    command.setParameters(commandParser.getParameters());
+                    if (command.validate()) {
+                        command.execute(this);
+                    } else {
+                        outputWriter.error();
+                    }
+                } else {
+                    outputWriter.error();
+                }
+            } catch (InvalidCommandException e){
+                outputWriter.error();
+            }
+
+        } while (true);
+    }
+
+    public void shutdown() {
+        try {
+            outputWriter.info("Bye!");
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        System.exit(0);
     }
 }
