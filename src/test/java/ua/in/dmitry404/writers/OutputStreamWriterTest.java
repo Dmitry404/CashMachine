@@ -22,7 +22,7 @@ public class OutputStreamWriterTest {
 
     @Test
     public void testSuccessMessage() throws WriterException {
-        String expectedMessage = "OK";
+        String expectedMessage = "OK\n";
 
         streamWriter.success();
 
@@ -31,7 +31,7 @@ public class OutputStreamWriterTest {
 
     @Test
     public void testErrorMessage() throws WriterException {
-        String expectedMessage = "ERROR";
+        String expectedMessage = "ERROR\n";
 
         streamWriter.error();
 

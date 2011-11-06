@@ -9,8 +9,8 @@ import java.io.OutputStream;
  * @author Dmitriy Butakov
  */
 public class OutputStreamWriter implements OutputWriter {
-    public static final String SUCCESS_MESSAGE = "OK";
-    public static final String ERROR_MESSAGE = "ERROR";
+    public static final String SUCCESS_MESSAGE = "OK\n";
+    public static final String ERROR_MESSAGE = "ERROR\n";
 
     private OutputStream stream;
 
