@@ -148,4 +148,14 @@ public class MoneyBoxTest {
         assertTrue(moneyBox.exists(currency));
         assertEquals(quantity, moneyBox.getNotesHolder(currency).getQuantity(value));
     }
+
+    @Test
+    public void testWithdrawNotExistingMoney() {
+        String currency = "USD";
+        int valueToWithdraw = 200;
+
+        NotesHolder notesHolder = moneyBox.withdraw(currency, valueToWithdraw);
+
+        assertNull(notesHolder);
+    }
 }

@@ -36,6 +36,10 @@ public class MoneyBox {
      * @return NotesHolder instance if operation was successful, null otherwise
      */
     public NotesHolder withdraw(String currencyCode, int amount) {
+        if (!exists(currencyCode)) {
+            return null;
+        }
+        
         NotesHolder copyOfCurrentNotesHolder = money.get(currencyCode).clone();
         NotesHolder newNotesHolder = new NotesHolder();
 

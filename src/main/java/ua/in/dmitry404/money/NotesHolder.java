@@ -99,6 +99,7 @@ public class NotesHolder implements Cloneable {
      *
      * @return cloned instance
      */
+    @Override
     public NotesHolder clone() {
         try {
             NotesHolder holder = (NotesHolder) super.clone();
