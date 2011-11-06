@@ -88,6 +88,26 @@ public class MoneyBoxTest {
     }
 
     @Test
+    public void testWithdrawMoneyWithRightOrder() {
+        String currency = "USD";
+        int value1 = 50;
+        int value2 = 100;
+        int quantity1 = 2;
+        int quantity2 = 2;
+
+        int valueToWithdraw = 100;
+
+        int expectedValueQuantity = 1;
+
+        moneyBox.deposit(currency, value1, quantity1);
+        moneyBox.deposit(currency, value2, quantity2);
+        NotesHolder notesHolder = moneyBox.withdraw(currency, valueToWithdraw);
+
+        assertTrue(moneyBox.exists(currency));
+        assertEquals(expectedValueQuantity, notesHolder.getQuantity(value2));
+    }
+
+    @Test
     public void testFailWithdrawMoney() {
         String currency = "USD";
         int value = 100;

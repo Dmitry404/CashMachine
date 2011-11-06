@@ -1,8 +1,8 @@
 package ua.in.dmitry404.money;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -11,7 +11,7 @@ import java.util.TreeMap;
  * @author Dmitriy Butakov
  */
 public class NotesHolder implements Cloneable {
-    private Map<Integer, Integer> notes = new TreeMap<Integer, Integer>(Collections.reverseOrder());
+    private SortedMap<Integer, Integer> notes = new TreeMap<Integer, Integer>(Collections.reverseOrder());
 
     /**
      * Put new value with specified quantity (rewrite old quantity if this value exists)
