@@ -31,6 +31,10 @@ public class DepositCommand extends Command {
      */
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutorException {
-        cashMachine.deposit();
+        String currency = getParameters().get(0);
+        int notesValue = Integer.parseInt(getParameters().get(1));
+        int notesQuantity = Integer.parseInt(getParameters().get(2));
+
+        cashMachine.deposit(currency, notesValue, notesQuantity);
     }
 }

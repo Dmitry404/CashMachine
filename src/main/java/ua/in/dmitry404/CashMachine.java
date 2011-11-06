@@ -79,7 +79,7 @@ public class CashMachine {
         System.exit(0);
     }
 
-    public void deposit() {
+    public void deposit(String currency, int notesValue, int notesQuantity) {
         
     }
 }
