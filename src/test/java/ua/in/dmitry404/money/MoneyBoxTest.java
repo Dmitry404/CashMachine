@@ -132,4 +132,20 @@ public class MoneyBoxTest {
 
         assertEquals(quantity, notesHolder.getQuantity(value));
     }
+
+    @Test
+    public void testWithdrawMoreMoneyThenPresent() {
+        String currency = "USD";
+        int value = 100;
+        int quantity = 1;
+
+        int valueToWithdraw = 200;
+
+        moneyBox.deposit(currency, value, quantity);
+        NotesHolder notesHolder = moneyBox.withdraw(currency, valueToWithdraw);
+
+        assertNull(notesHolder);
+        assertTrue(moneyBox.exists(currency));
+        assertEquals(quantity, moneyBox.getNotesHolder(currency).getQuantity(value));
+    }
 }

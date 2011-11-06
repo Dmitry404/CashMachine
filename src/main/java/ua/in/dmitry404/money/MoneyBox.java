@@ -40,13 +40,11 @@ public class MoneyBox {
         NotesHolder newNotesHolder = new NotesHolder();
 
         for (int banknotesValue : copyOfCurrentNotesHolder.getValues()) {
-            int banknotesQuantity = copyOfCurrentNotesHolder.getQuantity(banknotesValue);
-            while (amount >= banknotesValue) {
+            while (amount >= banknotesValue && !copyOfCurrentNotesHolder.isEmpty()) {
                 copyOfCurrentNotesHolder.pop(banknotesValue, 1);
                 newNotesHolder.add(banknotesValue, 1);
 
                 amount -= banknotesValue;
-                banknotesQuantity--;
             }
         }
 
