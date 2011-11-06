@@ -158,4 +158,23 @@ public class MoneyBoxTest {
 
         assertNull(notesHolder);
     }
+
+
+    @Test
+    public void testTestWithdrawCombineValuesOfMoney() {
+        String currency = "USD";
+        int value1 = 100;
+        int value2 = 50;
+        int quantity1 = 10;
+        int quantity2 = 10;
+
+        int valueToWithdraw = 1100;
+
+        moneyBox.deposit(currency, value1, quantity1);
+        moneyBox.deposit(currency, value2, quantity2);
+        NotesHolder notesHolder = moneyBox.withdraw(currency, valueToWithdraw);
+
+        assertTrue(moneyBox.exists(currency));
+        //assertEquals(expectedValueQuantity, notesHolder.getQuantity(value2));
+    }
 }

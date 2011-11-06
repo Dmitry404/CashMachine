@@ -44,7 +44,7 @@ public class MoneyBox {
         NotesHolder newNotesHolder = new NotesHolder();
 
         for (int banknotesValue : money.get(currencyCode).getValues()) {
-            while (amount >= banknotesValue && !copyOfCurrentNotesHolder.isEmpty()) {
+            while (amount >= banknotesValue && copyOfCurrentNotesHolder.contains(banknotesValue)) {
                 copyOfCurrentNotesHolder.pop(banknotesValue, 1);
                 newNotesHolder.add(banknotesValue, 1);
 
