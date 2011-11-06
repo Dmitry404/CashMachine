@@ -1,5 +1,6 @@
 package ua.in.dmitry404;
 
+import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.readers.InputReader;
 import ua.in.dmitry404.readers.InputStreamReader;
 import ua.in.dmitry404.writers.OutputStreamWriter;
@@ -19,6 +20,8 @@ public class AtmRunner {
         try {
             atm.run();
         } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (CommandExecutorException e) {
             e.printStackTrace();
         }
     }

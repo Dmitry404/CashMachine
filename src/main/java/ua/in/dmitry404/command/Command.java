@@ -19,8 +19,9 @@ public interface Command {
      * Execute command
      *
      * @param cashMachine instance of CashMachine
+     * @throws CommandExecutorException
      */
-    void execute(CashMachine cashMachine);
+    void execute(CashMachine cashMachine) throws CommandExecutorException ;
 
     /**
      * Set list of parameters

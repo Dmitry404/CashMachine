@@ -1,6 +1,7 @@
 package ua.in.dmitry404;
 
 import ua.in.dmitry404.command.Command;
+import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.command.CommandParser;
 import ua.in.dmitry404.command.InvalidCommandException;
 import ua.in.dmitry404.command.implementation.QuitCommand;
@@ -35,8 +36,8 @@ public class CashMachine {
         commandHolder.put("Q", new QuitCommand());
     }
 
-    public void run() throws WriterException {
-        do {
+    public void run() throws WriterException, CommandExecutorException {
+        while (true) {
             try {
                 CommandParser commandParser = new CommandParser(inputReader.readCommand());
                 if (commandHolder.containsKey(commandParser.getName())) {
@@ -54,15 +55,11 @@ public class CashMachine {
                 outputWriter.error();
             }
 
-        } while (true);
+        }
     }
 
-    public void shutdown() {
-        try {
-            outputWriter.info("Bye!");
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+    public void shutdown() throws WriterException {
+        outputWriter.info("Bye!");
 
         System.exit(0);
     }

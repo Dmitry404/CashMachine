@@ -2,6 +2,8 @@ package ua.in.dmitry404.command.implementation;
 
 import ua.in.dmitry404.CashMachine;
 import ua.in.dmitry404.command.Command;
+import ua.in.dmitry404.command.CommandExecutorException;
+import ua.in.dmitry404.writers.WriterException;
 
 import java.util.List;
 
@@ -23,8 +25,12 @@ public class QuitCommand implements Command {
      * {@inheritDoc}
      */
     @Override
-    public void execute(CashMachine cashMachine) {
-        cashMachine.shutdown();
+    public void execute(CashMachine cashMachine) throws CommandExecutorException {
+        try {
+            cashMachine.shutdown();
+        } catch (WriterException e) {
+            throw new CommandExecutorException(e);
+        }
     }
 
     /**
