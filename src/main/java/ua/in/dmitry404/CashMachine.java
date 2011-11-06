@@ -6,6 +6,9 @@ import ua.in.dmitry404.command.CommandParser;
 import ua.in.dmitry404.command.InvalidCommandException;
 import ua.in.dmitry404.command.implementation.DepositCommand;
 import ua.in.dmitry404.command.implementation.QuitCommand;
+import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
+import ua.in.dmitry404.command.validator.NotesQuantityValidator;
+import ua.in.dmitry404.command.validator.NotesValueValidator;
 import ua.in.dmitry404.readers.InputReader;
 import ua.in.dmitry404.writers.OutputWriter;
 import ua.in.dmitry404.writers.WriterException;
@@ -34,8 +37,18 @@ public class CashMachine {
         this.inputReader = inputReader;
         this.outputWriter = outputWriter;
 
+        initializeCommands();
+    }
+
+    private void initializeCommands() {
+        CurrencyCodeValidator currencyCodeValidator = new CurrencyCodeValidator();
+        NotesValueValidator notesValueValidator = new NotesValueValidator();
+        NotesQuantityValidator notesQuantityValidator = new NotesQuantityValidator();
+
         commandHolder.put("Q", new QuitCommand());
-        commandHolder.put("+", new DepositCommand());
+        commandHolder.put("+", new DepositCommand(
+            currencyCodeValidator, notesValueValidator, notesQuantityValidator
+        ));
     }
 
     public void run() throws WriterException, CommandExecutorException {
@@ -64,5 +77,9 @@ public class CashMachine {
         outputWriter.info("Bye!");
 
         System.exit(0);
+    }
+
+    public void deposit() {
+        
     }
 }

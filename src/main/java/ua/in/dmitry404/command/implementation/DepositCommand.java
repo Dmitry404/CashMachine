@@ -3,6 +3,9 @@ package ua.in.dmitry404.command.implementation;
 import ua.in.dmitry404.CashMachine;
 import ua.in.dmitry404.command.Command;
 import ua.in.dmitry404.command.CommandExecutorException;
+import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
+import ua.in.dmitry404.command.validator.NotesQuantityValidator;
+import ua.in.dmitry404.command.validator.NotesValueValidator;
 
 /**
  * This class is implementation of "Deposit" command
@@ -11,15 +14,16 @@ import ua.in.dmitry404.command.CommandExecutorException;
  */
 public class DepositCommand extends Command {
     /**
-     * {@inheritDoc}
+     * Construct command with parameter validators
+     *
+     * @param currencyCodeValidator currency code validator
+     * @param notesValueValidator notes value validator
+     * @param notesQuantityValidator notes quantity validator
      */
-    @Override
-    public boolean validate() {
-        return validateRequiredParametersQuantity()
-            && validateCurrencyCode(parameters.get(0))
-            && validateNotesValue(parameters.get(1))
-            && validateNotesQuantity(parameters.get(2))
-        ;
+    public DepositCommand(CurrencyCodeValidator currencyCodeValidator,
+                          NotesValueValidator notesValueValidator,
+                          NotesQuantityValidator notesQuantityValidator ) {
+        super(currencyCodeValidator, notesValueValidator, notesQuantityValidator);
     }
 
     /**
@@ -27,26 +31,6 @@ public class DepositCommand extends Command {
      */
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutorException {
-
-    }
-
-    private boolean validateRequiredParametersQuantity() {
-        return (getParameters().size() == 3);
-    }
-
-    private boolean validateCurrencyCode(String currencyCode) {
-        String regex = "[A-Z]{3}";
-
-        return currencyCode.matches(regex);
-    }
-
-    private boolean validateNotesValue(String notesValue) {
-        return notesValue.equals("100");
-    }
-
-    private boolean validateNotesQuantity(String notesQuantity) {
-        String regex = "[1-9][0-9]{0,}";
-
-        return notesQuantity.matches(regex);
+        cashMachine.deposit();
     }
 }

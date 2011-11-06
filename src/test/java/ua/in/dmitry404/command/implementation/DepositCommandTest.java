@@ -1,11 +1,11 @@
 package ua.in.dmitry404.command.implementation;
 
-import org.junit.Before;
 import org.junit.Test;
+import ua.in.dmitry404.CashMachine;
+import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
+import ua.in.dmitry404.command.validator.NotesQuantityValidator;
+import ua.in.dmitry404.command.validator.NotesValueValidator;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -14,52 +14,17 @@ import static org.mockito.Mockito.*;
  * @author Dmitriy Butakov
  */
 public class DepositCommandTest {
-    private DepositCommand command;
-    List<String> parameters;
-
-    @Before
-    @SuppressWarnings("unchecked")
-    public void setUp() {
-        command = new DepositCommand();
-        parameters = mock(List.class);
-    }
-
     @Test
-    public void testValidateWithoutParameters() {
-        assertFalse(command.validate());
-    }
+    public void testExecute() throws Exception {
+        CurrencyCodeValidator currencyCodeValidator = mock(CurrencyCodeValidator.class);
+        NotesValueValidator notesValueValidator = mock(NotesValueValidator.class);
+        NotesQuantityValidator notesQuantityValidator = mock(NotesQuantityValidator.class);
 
-    @Test
-    public void testValidateWithWrongRequiredParametersQuantity() {
-        int requiredParametersQuantity = 3;
+        CashMachine atm = mock(CashMachine.class);
 
-        when(parameters.size()).thenReturn(requiredParametersQuantity - 1);
-        command.setParameters(parameters);
-        
-        assertFalse(command.validate());
+        DepositCommand command = new DepositCommand(currencyCodeValidator, notesValueValidator, notesQuantityValidator);
+        command.execute(atm);
 
-        when(parameters.size()).thenReturn(requiredParametersQuantity + 1);
-        command.setParameters(parameters);
-
-        assertFalse(command.validate());
-    }
-
-    @Test
-    public void testValidateWithValidParameters() {
-        int requiredParametersQuantity = 3;
-
-        String validCurrency = "USD";
-        String validNotesValue = "100";
-        String validNotesQuantity = "10";
-
-        when(parameters.get(0)).thenReturn(validCurrency);
-        when(parameters.get(1)).thenReturn(validNotesValue);
-        when(parameters.get(2)).thenReturn(validNotesQuantity);
-
-        when(parameters.size()).thenReturn(requiredParametersQuantity);
-
-        command.setParameters(parameters);
-
-        assertTrue(command.validate());
+        verify(atm).deposit();
     }
 }
