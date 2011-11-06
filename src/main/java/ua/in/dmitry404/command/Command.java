@@ -7,26 +7,30 @@ import java.util.List;
 /**
  * @author Dmitriy Butakov
  */
-public interface Command {
+public abstract class Command {
+    private List<String> parameters;
+
     /**
      * Get command validation result
      *
      * @return result of validation
      */
-    boolean validate();
+    public abstract boolean validate();
 
     /**
      * Execute command
      *
      * @param cashMachine instance of CashMachine
-     * @throws CommandExecutorException
+     * @throws CommandExecutorException exception-wrapper which could be caused instead of other checked exception
      */
-    void execute(CashMachine cashMachine) throws CommandExecutorException ;
+    public abstract void execute(CashMachine cashMachine) throws CommandExecutorException;
 
     /**
      * Set list of parameters
      *
      * @param parameters command parameters
      */
-    void setParameters(List<String> parameters);
+    public void setParameters(List<String> parameters) {
+        this.parameters = parameters;
+    }
 }

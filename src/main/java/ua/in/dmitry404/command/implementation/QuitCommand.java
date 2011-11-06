@@ -5,14 +5,12 @@ import ua.in.dmitry404.command.Command;
 import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.writers.WriterException;
 
-import java.util.List;
-
 /**
  * This class is implementation of "Quit" command
  * 
  * @author Dmitriy Butakov
  */
-public class QuitCommand implements Command {
+public class QuitCommand extends Command {
     /**
      * {@inheritDoc}
      */
@@ -31,13 +29,5 @@ public class QuitCommand implements Command {
         } catch (WriterException e) {
             throw new CommandExecutorException(e);
         }
-    }
-
-    /**
-    * {@inheritDoc}
-     */
-    @Override
-    public void setParameters(List<String> parameters) {
-        // do nothing for this command
     }
 }
