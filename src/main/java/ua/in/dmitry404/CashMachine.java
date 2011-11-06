@@ -4,6 +4,7 @@ import ua.in.dmitry404.command.Command;
 import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.command.CommandParser;
 import ua.in.dmitry404.command.InvalidCommandException;
+import ua.in.dmitry404.command.implementation.DepositCommand;
 import ua.in.dmitry404.command.implementation.QuitCommand;
 import ua.in.dmitry404.readers.InputReader;
 import ua.in.dmitry404.writers.OutputWriter;
@@ -34,6 +35,7 @@ public class CashMachine {
         this.outputWriter = outputWriter;
 
         commandHolder.put("Q", new QuitCommand());
+        commandHolder.put("+", new DepositCommand());
     }
 
     public void run() throws WriterException, CommandExecutorException {
