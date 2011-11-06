@@ -5,6 +5,7 @@ import ua.in.dmitry404.command.Command;
 import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
 import ua.in.dmitry404.command.validator.NotesQuantityValidator;
+import ua.in.dmitry404.writers.WriterException;
 
 /**
  * This class is implementation of "Withdraw" command
@@ -29,8 +30,12 @@ public class WithdrawCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutorException {
         String currency = getParameters().get(0);
-        int notesQuantity = Integer.parseInt(getParameters().get(1));
+        int amount = Integer.parseInt(getParameters().get(1));
 
-        cashMachine.withdraw(currency, notesQuantity);
+        try {
+            cashMachine.withdraw(currency, amount);
+        } catch (WriterException e) {
+            throw new CommandExecutorException(e);
+        }
     }
 }

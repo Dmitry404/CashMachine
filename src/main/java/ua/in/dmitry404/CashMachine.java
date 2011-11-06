@@ -11,6 +11,8 @@ import ua.in.dmitry404.command.implementation.WithdrawCommand;
 import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
 import ua.in.dmitry404.command.validator.NotesQuantityValidator;
 import ua.in.dmitry404.command.validator.NotesValueValidator;
+import ua.in.dmitry404.money.MoneyBox;
+import ua.in.dmitry404.money.NotesHolder;
 import ua.in.dmitry404.readers.InputReader;
 import ua.in.dmitry404.writers.OutputWriter;
 import ua.in.dmitry404.writers.WriterException;
@@ -29,6 +31,8 @@ public class CashMachine {
 
     Map<String, Command> commandHolder = new HashMap<String, Command>();
 
+    MoneyBox moneys = new MoneyBox();
+
     /**
      * Construct ATM
      *
@@ -42,6 +46,9 @@ public class CashMachine {
         initializeCommands();
     }
 
+    /**
+     * Setup ATM commands
+     */
     private void initializeCommands() {
         CurrencyCodeValidator currencyCodeValidator = new CurrencyCodeValidator();
         NotesValueValidator notesValueValidator = new NotesValueValidator();
@@ -57,6 +64,12 @@ public class CashMachine {
         commandHolder.put("?", new PrintCommand());
     }
 
+    /**
+     * Run ATM
+     *
+     * @throws WriterException if any checked exception will be thrown in implementation of OutputWriter
+     * @throws CommandExecutorException if any checked exception will be thrown in implementation of Command
+     */
     public void run() throws WriterException, CommandExecutorException {
         while (true) {
             try {
@@ -79,21 +92,71 @@ public class CashMachine {
         }
     }
 
+    /**
+     * Shutdown ATM
+     *
+     * @throws WriterException if any checked exception will be thrown in implementation of OutputWriter
+     */
     public void shutdown() throws WriterException {
         outputWriter.info("Bye!");
 
         System.exit(0);
     }
 
-    public void deposit(String currency, int notesValue, int notesQuantity) {
-        
+    /**
+     * Try to deposit values with specified currency code, value of notes and notes quantity
+     *
+     * @param currency currency code
+     * @param notesValue value of notes
+     * @param notesQuantity notes quantity
+     * @throws WriterException if any checked exception will be thrown in implementation of OutputWriter
+     */
+    public void deposit(String currency, int notesValue, int notesQuantity) throws WriterException {
+        moneys.deposit(currency, notesValue, notesQuantity);
+        outputWriter.success();
     }
 
-    public void withdraw(String currency, int notesQuantity) {
+    /**
+     * Try to withdraw values with specified currency code and amount that will be withdrawn
+     *
+     * @param currency currency code
+     * @param amount amount that will be withdrawn
+     * @throws WriterException if any checked exception will be thrown in implementation of OutputWriter
+     */
+    public void withdraw(String currency, int amount) throws WriterException {
+        NotesHolder notesHolder = moneys.withdraw(currency, amount);
+        if (notesHolder != null) {
+            for (int notesValue : notesHolder.getValues()) {
+                String outputString = "";
+                outputString += Integer.toString(notesValue) + " ";
+                outputString += Integer.toString(notesHolder.getQuantity(notesValue)) + "\n";
 
+                outputWriter.info(outputString);
+            }
+            outputWriter.success();
+        } else {
+            outputWriter.error();
+        }
     }
 
-    public void print() {
-        
+    /**
+     * Print current ATM state
+     *
+     * @throws WriterException if any checked exception will be thrown in implementation of OutputWriter
+     */
+    public void print() throws WriterException {
+        for (String currencyCode : moneys.getValues()) {
+            NotesHolder notesHolder = moneys.getNotesHolder(currencyCode);
+
+            for (int notesValue : notesHolder.getValues()) {
+                String outputString = currencyCode + " ";
+                outputString += Integer.toString(notesValue) + " ";
+                outputString += Integer.toString(notesHolder.getQuantity(notesValue)) + "\n";
+
+                outputWriter.info(outputString);
+            }
+        }
+
+        outputWriter.success();
     }
 }

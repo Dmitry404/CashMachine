@@ -21,12 +21,12 @@ public class WithdrawCommandTest {
         NotesQuantityValidator notesQuantityValidator = mock(NotesQuantityValidator.class);
 
         String currencyCode = "USD";
-        String notesQuantity = "10";
+        String amount = "10";
 
         @SuppressWarnings("unchecked")
         List<String> parameters = mock(List.class);
         when(parameters.get(0)).thenReturn(currencyCode);
-        when(parameters.get(1)).thenReturn(notesQuantity);
+        when(parameters.get(1)).thenReturn(amount);
 
         CashMachine atm = mock(CashMachine.class);
 
@@ -34,6 +34,6 @@ public class WithdrawCommandTest {
         command.setParameters(parameters);
         command.execute(atm);
 
-        verify(atm).withdraw(eq(currencyCode), eq(Integer.parseInt(notesQuantity)));
+        verify(atm).withdraw(eq(currencyCode), eq(Integer.parseInt(amount)));
     }
 }

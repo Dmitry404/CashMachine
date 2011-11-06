@@ -6,6 +6,7 @@ import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
 import ua.in.dmitry404.command.validator.NotesQuantityValidator;
 import ua.in.dmitry404.command.validator.NotesValueValidator;
+import ua.in.dmitry404.writers.WriterException;
 
 /**
  * This class is implementation of "Deposit" command
@@ -35,6 +36,10 @@ public class DepositCommand extends Command {
         int notesValue = Integer.parseInt(getParameters().get(1));
         int notesQuantity = Integer.parseInt(getParameters().get(2));
 
-        cashMachine.deposit(currency, notesValue, notesQuantity);
+        try {
+            cashMachine.deposit(currency, notesValue, notesQuantity);
+        } catch (WriterException e) {
+            throw new CommandExecutorException(e);
+        }
     }
 }
