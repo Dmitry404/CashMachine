@@ -42,4 +42,13 @@ public class DepositCommand extends Command {
             throw new CommandExecutorException(e);
         }
     }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Deposit money";
+    }
 }

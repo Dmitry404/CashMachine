@@ -38,4 +38,12 @@ public class WithdrawCommand extends Command {
             throw new CommandExecutorException(e);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Withdraw money";
+    }
 }

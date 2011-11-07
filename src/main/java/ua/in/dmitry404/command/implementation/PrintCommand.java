@@ -22,4 +22,12 @@ public class PrintCommand extends Command {
             throw new CommandExecutorException(e);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Print available cash";
+    }
 }

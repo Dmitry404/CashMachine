@@ -30,4 +30,12 @@ public class QuitCommand extends Command {
             throw new CommandExecutorException(e);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Quit";
+    }
 }
