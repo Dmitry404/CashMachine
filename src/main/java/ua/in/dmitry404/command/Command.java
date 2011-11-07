@@ -71,4 +71,13 @@ public abstract class Command {
     protected boolean validateParametersQuantity() {
         return (parameters.size() == validators.size());
     }
+
+    /**
+     * Return description of command (default is empty
+     *
+     * @return description of command
+     */
+    public String getDescription() {
+        return "";
+    }
 }

@@ -4,10 +4,7 @@ import ua.in.dmitry404.command.Command;
 import ua.in.dmitry404.command.CommandExecutorException;
 import ua.in.dmitry404.command.CommandParser;
 import ua.in.dmitry404.command.InvalidCommandException;
-import ua.in.dmitry404.command.implementation.DepositCommand;
-import ua.in.dmitry404.command.implementation.PrintCommand;
-import ua.in.dmitry404.command.implementation.QuitCommand;
-import ua.in.dmitry404.command.implementation.WithdrawCommand;
+import ua.in.dmitry404.command.implementation.*;
 import ua.in.dmitry404.command.validator.CurrencyCodeValidator;
 import ua.in.dmitry404.command.validator.NotesQuantityValidator;
 import ua.in.dmitry404.command.validator.NotesValueValidator;
@@ -38,12 +35,18 @@ public class CashMachine {
      *
      * @param inputReader specified input reader
      * @param outputWriter specified output writer
+     * @throws WriterException if caused some checked exception in OutputWriter
      */
-    public CashMachine(InputReader inputReader, OutputWriter outputWriter) {
+    public CashMachine(InputReader inputReader, OutputWriter outputWriter) throws WriterException {
         this.inputReader = inputReader;
         this.outputWriter = outputWriter;
 
         initializeCommands();
+        printHelloMessage();
+    }
+
+    private void printHelloMessage() throws WriterException {
+        outputWriter.info("Hello! (put H for help)\n");
     }
 
     /**
@@ -62,6 +65,7 @@ public class CashMachine {
             currencyCodeValidator, notesQuantityValidator
         ));
         commandHolder.put("?", new PrintCommand());
+        commandHolder.put("H", new HelpCommand());
     }
 
     /**
@@ -157,6 +161,16 @@ public class CashMachine {
             }
         }
 
+        outputWriter.success();
+    }
+
+    public void help() throws WriterException {
+        outputWriter.info("\n");
+        
+        for (String command : commandHolder.keySet()) {
+            outputWriter.info(command + " - ");
+            outputWriter.info(commandHolder.get(command).getDescription() + "\n");
+        }
         outputWriter.success();
     }
 }

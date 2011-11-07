@@ -15,9 +15,8 @@ public class AtmRunner {
         InputReader inputReader = new InputStreamReader(System.in);
         OutputWriter outputWriter = new OutputStreamWriter(System.out);
 
-        CashMachine atm = new CashMachine(inputReader, outputWriter);
-
         try {
+            CashMachine atm = new CashMachine(inputReader, outputWriter);
             atm.run();
         } catch (WriterException e) {
             e.printStackTrace();
